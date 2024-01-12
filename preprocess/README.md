@@ -10,9 +10,9 @@ Folder structure:
 
 
 The folders contain:
-preprocess/csv_data_source/hosp_source contains all the hadm_id of all the patients.
-preprocess/csv_data_source/icu_source contains all the stay_id of all icu.
-preprocess/csv_data_target contains all the subject_id folders.  Within each folder, there are all the hadm_id files related to the patient (hospitalizations and ICUs).
+  - preprocess/csv_data_source/hosp_source contains all the hadm_id of all the patients.
+  - preprocess/csv_data_source/icu_source contains all the stay_id of all icu.
+  - preprocess/csv_data_target contains all the subject_id folders.  Within each folder, there are all the hadm_id files related to the patient (hospitalizations and ICUs).
 
 
 In each hadm_id and stay_id there are 3 files:
