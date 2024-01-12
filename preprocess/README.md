@@ -21,6 +21,8 @@ In each hadm_id and stay_id there are 3 files:
    - dynamic.csv which contains the medications and procedures 
 
 
+
+
 The recup.py file aims to join ICU data with hospitalization data to create a time series of a patient. 
 
 The file Create_object.py aims to construct the real dataset from the files created by recup.py (the dictionaries and the patient's medical records).
