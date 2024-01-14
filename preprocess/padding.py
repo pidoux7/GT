@@ -18,16 +18,16 @@ import itertools
 ######################################################################################################################
 def create_graph_pad(patient):
     visite = Data(
-        x = torch.tensor([0,10001]).to(torch.int64),
+        x = torch.tensor([0,1], dtype=torch.int64),
         edge_index = torch.tensor([[0],[1]], dtype=torch.int64),
-        edge_attr = (torch.ones(1) * 10001).to(torch.int64),
+        edge_attr = torch.tensor([7], dtype=torch.int64),  # on met des valeurs qui n'existent pas pour les visites de padding
         label = patient.label,
-        age = torch.tensor([10001], dtype=torch.int64),
-        time = torch.tensor([10001], dtype=torch.int64),
-        rang = torch.tensor([10001], dtype=torch.int64),
-        type = torch.tensor([10001], dtype=torch.int64),
+        age = torch.tensor([130], dtype=torch.int64),
+        time = torch.tensor([367], dtype=torch.int64),
+        rang = torch.tensor([51], dtype=torch.int64),
+        type = torch.tensor([10], dtype=torch.int64),
         subject_id = patient.subject_id,
-        hadm_id = torch.tensor([10001], dtype=torch.int64),
+        hadm_id = torch.tensor([1], dtype=torch.int64),
         mask_v = torch.tensor([0], dtype=torch.int64),
 
         )
@@ -38,7 +38,7 @@ def create_graph_pad(patient):
 
 if __name__ == '__main__':
     
-    with open('./data/data.pkl', 'rb') as f:
+    with open('./data.pkl', 'rb') as f:
         dataset = pkl.load(f)
     print('dataset loaded')
 
@@ -62,6 +62,8 @@ if __name__ == '__main__':
                 rang = 0
                 for visite in patient:
                     visite.x = visite.x.squeeze()
+                    # decaler de +5 tous les chiffres sauf 0
+                    visite.x = torch.where(visite.x != 0, visite.x + 5, visite.x)
                     visite.mask_v = torch.tensor([1], dtype=torch.int64)
                     visite.time = visite.date
                     del visite.date
@@ -77,7 +79,8 @@ if __name__ == '__main__':
 
                 rang = 0
                 for visite in patient_pad:
-                    visite.x = visite.x.squeeze()               
+                    visite.x = visite.x.squeeze()
+                    visite.x = torch.where(visite.x != 0, visite.x + 5, visite.x)
                     visite.mask_v = torch.tensor([1], dtype=torch.int64)
                     visite.time = visite.date
                     del visite.date
@@ -91,6 +94,7 @@ if __name__ == '__main__':
                 rang = 0
                 for visite in patient_pad:
                     visite.x = visite.x.squeeze()
+                    visite.x = torch.where(visite.x != 0, visite.x + 5, visite.x)
                     visite.mask_v = torch.tensor([1], dtype=torch.int64)
                     visite.time = visite.date
                     del visite.date
@@ -102,5 +106,5 @@ if __name__ == '__main__':
 
 print('dataset_pad created')
 
-with open('./data/data_pad.pkl', 'wb') as f:
+with open('./data_pad.pkl', 'wb') as f:
     pkl.dump(dataset_pad, f)
